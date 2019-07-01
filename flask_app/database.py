@@ -1,12 +1,9 @@
-try:
-    from app import config_private as app_ofd_config
-except ImportError:
-    from app import config_publ as app_ofd_config
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
-
-engine = create_engine(app_ofd_config.postgreurl)
+from flask_app.config import config
+db_url = config.get("Database", "stage")
+engine = create_engine(db_url)
 db_session = scoped_session(sessionmaker(autocommit=False,
                                          autoflush=False,
                                          bind=engine))
@@ -19,5 +16,5 @@ def init_db():
     # Здесь нужно импортировать все модули, где могут быть определены модели,
     # которые необходимым образом могут зарегистрироваться в метаданных.
     # В противном случае их нужно будет импортировать до вызова init_db()
-    import app.models
+    from flask_app import models
     Base.metadata.create_all(bind=engine)

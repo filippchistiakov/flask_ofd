@@ -1,8 +1,3 @@
-# -*- coding: utf-8 -*-
-try:
-    from app import config_private as app_ofd_config
-except ImportError:
-    from app import config_publ as app_ofd_config
 from datetime import datetime
 import requests
 from sqlalchemy.exc import IntegrityError
@@ -15,14 +10,10 @@ from flask import (
     redirect,
 )
 
-from app.database import db_session, init_db
-from app.models import ReceiptModel, CloseshiftModel, OpenshiftModel
-from app.schemas import Platformaofd
-
-token_auth = app_ofd_config.token_auth
-teleg_url = app_ofd_config.teleg_url
-app = Flask(__name__)
-platformaofd_schema = Platformaofd()
+from flask_app.database import db_session, init_db
+from flask_app.models import ReceiptModel, CloseshiftModel, OpenshiftModel
+from flask_app.schemas import Platformaofd
+from flask_app.config import config
 
 # Дополнительные функции
 def create_response(status, request):
@@ -87,16 +78,12 @@ def try_create_new_doc(data):
     try:
         db_session.add(new_doc)
         db_session.commit()
-        result = Receipt().dump(
-            ReceiptModel.query.get(new_doc.id)
-        )
         return (
             jsonify(
                 {
                     "status": "Created new {}".format(
                         doc_type
                     ),
-                    "content": result,
                 }
             ),
             201,
@@ -111,22 +98,7 @@ def try_create_new_doc(data):
             status="failed", request=request
         )
 
-@app.teardown_appcontext
-def shutdown_session(exception=None):
-    db_session.remove()
 
-@app.before_first_request
-def init_db_first():
-    init_db()
-
-@app.route("/", methods=["GET"])
-def index():
-    return redirect("/dash", code=302)
-
-
-@app.route(
-    "/acceptreceipt/platformaofd/", methods=["GET", "POST"]
-)
 def add_doc():
     if (
         "token" not in request.headers

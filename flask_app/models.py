@@ -1,6 +1,6 @@
 from sqlalchemy import Column, BigInteger, String, TIMESTAMP
 from sqlalchemy.schema import UniqueConstraint
-from app.database import Base
+from flask_app.database import Base
 from datetime import datetime
 # Модели таблиц БД
 class ReceiptModel(Base):
