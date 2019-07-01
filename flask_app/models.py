@@ -1,7 +1,11 @@
+from datetime import datetime
+
 from sqlalchemy import Column, BigInteger, String, TIMESTAMP
 from sqlalchemy.schema import UniqueConstraint
+
 from flask_app.database import Base
-from datetime import datetime
+
+
 # Модели таблиц БД
 class ReceiptModel(Base):
     __tablename__ = "receipts"
@@ -116,5 +120,3 @@ class CloseshiftModel(Base):
             name="_closeshift_uniq",
         ),
     )
-
-

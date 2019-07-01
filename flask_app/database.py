@@ -1,7 +1,9 @@
 from sqlalchemy import create_engine
-from sqlalchemy.orm import scoped_session, sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import scoped_session, sessionmaker
+
 from flask_app.config import config
+
 db_url = config.get("Database", "stage")
 engine = create_engine(db_url)
 db_session = scoped_session(sessionmaker(autocommit=False,

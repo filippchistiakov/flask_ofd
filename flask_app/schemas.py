@@ -1,5 +1,8 @@
-from marshmallow import Schema, fields, EXCLUDE, pre_load
 from datetime import datetime
+
+from marshmallow import Schema, fields, EXCLUDE, pre_load
+
+
 # Схемы Json зефирки
 # Кастомные поля
 class FieldCustomDatetime(fields.Field):
@@ -301,4 +304,3 @@ class Platformaofd(Schema):
 
     class Meta:
         unknown = EXCLUDE
-

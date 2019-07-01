@@ -1,21 +1,25 @@
 from datetime import datetime
+
 import requests
-from sqlalchemy.exc import IntegrityError
 from flask import (
-    Flask,
     request,
     jsonify,
     Response,
     json,
-    redirect,
 )
+from sqlalchemy.exc import IntegrityError
 
-from flask_app.database import db_session, init_db
+from flask_app.config import config
+from flask_app.database import db_session
 from flask_app.models import ReceiptModel, CloseshiftModel, OpenshiftModel
 from flask_app.schemas import Platformaofd
-from flask_app.config import config
 
-# Дополнительные функции
+token_auth = config.get("Authentication", "token")
+teleg_url = config.get("Telegram", "url")
+platformaofd_schema = Platformaofd()
+
+
+# Ф-ция создания ответа и уведомления в телеграмм
 def create_response(status, request):
     status_code_dict = {
         "no_token": 400,
@@ -54,6 +58,7 @@ def create_response(status, request):
     )
 
 
+# Ф-ция которая отправляет данные в БД, data - это валидированный json
 def try_create_new_doc(data):
     doc_type = list(data["document"].keys())[0]
     data = data["document"][doc_type]
@@ -61,15 +66,15 @@ def try_create_new_doc(data):
     docs_dict = {
         "receipt": {
             "Base_model": ReceiptModel,
-            #"Schema": Receipt,
+            # "Schema": Receipt,
         },
         "openshift": {
             "Base_model": OpenshiftModel,
-            #"Schema": Openshift,
+            # "Schema": Openshift,
         },
         "closeshift": {
             "Base_model": CloseshiftModel,
-            #"Schema": Closeshift,
+            # "Schema": Closeshift,
         },
     }
     new_doc = docs_dict[doc_type]["Base_model"]()
@@ -99,15 +104,16 @@ def try_create_new_doc(data):
         )
 
 
+# Ф-ция которая получает хук валидирует json и вызывает create_response и try_create_new_doc
 def add_doc():
     if (
-        "token" not in request.headers
+            "token" not in request.headers
     ):  # Если нету токена в заголовке
         return create_response(
             status="no_token", request=request
         )
     elif (
-        request.headers["token"] == token_auth
+            request.headers["token"] == token_auth
     ):  # Если токен есть и он правильный
         json_input = (
             request.get_json()
