@@ -10,9 +10,9 @@ from flask import (
 from sqlalchemy.exc import IntegrityError
 
 from flask_app.config import config
-from flask_app.database import db_session
 from flask_app.models import ReceiptModel, CloseshiftModel, OpenshiftModel
 from flask_app.schemas import Platformaofd
+from  flask_app.app import db
 
 token_auth = config.get("Authentication", "token")
 teleg_url = config.get("Telegram", "url")
@@ -81,17 +81,13 @@ def try_create_new_doc(data):
     for key, val in data.items():
         setattr(new_doc, key, val)
     try:
-        db_session.add(new_doc)
-        db_session.commit()
-        return (
-            jsonify(
-                {
-                    "status": "Created new {}".format(
-                        doc_type
-                    ),
-                }
-            ),
-            201,
+        db.session.add(new_doc)
+        db.session.commit()
+        db.session.close()
+        return Response(
+            json.dumps({"status":"Created new {}".format(doc_type)}),
+            status=201,
+            mimetype="application/json",
         )
     except IntegrityError:
         return create_response(

@@ -1,21 +1,17 @@
 # -*- coding: utf-8 -*-
-from flask import (Flask, redirect, )
-
+from flask import  redirect
 from flask_app.api import add_doc
-from flask_app.database import db_session, init_db
-
-app = Flask(__name__)
-
+from flask_app.app import app, db
 
 # Дополнительные функции
 @app.teardown_appcontext
 def shutdown_session(exception=None):
-    db_session.remove()
+    db.session.remove()
 
 
 @app.before_first_request
-def init_db_first():
-    init_db()
+def init_request():
+    db.create_all()
 
 
 @app.route("/", methods=["GET"])

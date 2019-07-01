@@ -1,13 +1,10 @@
 from datetime import datetime
-
 from sqlalchemy import Column, BigInteger, String, TIMESTAMP
 from sqlalchemy.schema import UniqueConstraint
-
-from flask_app.database import Base
-
+from flask_app.app import db
 
 # Модели таблиц БД
-class ReceiptModel(Base):
+class ReceiptModel(db.Model):
     __tablename__ = "receipts"
     id = Column(BigInteger, primary_key=True)
     created_at = Column(
@@ -61,7 +58,7 @@ class ReceiptModel(Base):
     )
 
 
-class OpenshiftModel(Base):
+class OpenshiftModel(db.Model):
     __tablename__ = "openshift"
     id = Column(BigInteger, primary_key=True)
     created_at = Column(
@@ -87,7 +84,7 @@ class OpenshiftModel(Base):
     )
 
 
-class CloseshiftModel(Base):
+class CloseshiftModel(db.Model):
     __tablename__ = "closeshift"
     id = Column(BigInteger, primary_key=True)
     created_at = Column(
