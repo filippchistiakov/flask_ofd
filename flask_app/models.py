@@ -1,7 +1,7 @@
 from datetime import datetime
 from sqlalchemy import Column, BigInteger, Integer, String, TIMESTAMP, SmallInteger
 from sqlalchemy.schema import UniqueConstraint
-from flask_app.app import db
+from main_app import db
 
 # Модели таблиц БД
 class ReceiptModel(db.Model):

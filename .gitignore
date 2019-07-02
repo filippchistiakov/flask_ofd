@@ -1,0 +1,13 @@
+# virtualenv files
+.venv/
+venv/
+
+# Python Cache
+__pycache__/
+
+# IDE
+.idea/
+.vscode/
+
+# for sqlite
+*.db

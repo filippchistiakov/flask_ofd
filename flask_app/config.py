@@ -16,4 +16,4 @@ def read_config(public=True):
         return dash_cfg, config
 
 
-dash_cfg, config = read_config(public=False)
+dash_cfg, config = read_config(public=True)
