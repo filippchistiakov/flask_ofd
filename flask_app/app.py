@@ -5,6 +5,7 @@ from werkzeug.contrib.fixers import ProxyFix
 from flask_app.config import dash_cfg
 
 
+# noinspection PyDeprecation
 def create_app():
     app = Flask(__name__)
     db_url = config.get("Database", "stage")

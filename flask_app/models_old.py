@@ -1,6 +1,6 @@
 from datetime import datetime
 from sqlalchemy import Column, String, TIMESTAMP, Integer
-from flask_app.app import db
+from main_app import db
 
 ######## Кастомные поля
 
