@@ -69,11 +69,11 @@ class OpenshiftModel(db.Model):
     operator = Column(String)
     retailplaceaddress = Column(String)
     open_datetime = Column(TIMESTAMP(timezone="UTC"))
-    shiftnumber = Column(BigInteger)
+    shiftnumber = Column(Integer)
     kktregid = Column(String)
     fiscaldrivenumber = Column(String)
     fiscaldocumentnumber = Column(BigInteger)
-    fiscalsign = Column(BigInteger)
+    fiscalsign = Column(Integer)
     __table_args__ = (
         UniqueConstraint(
             "fiscaldrivenumber",
@@ -94,9 +94,9 @@ class CloseshiftModel(db.Model):
     company_name = Column(String)
     operator = Column(String)
     close_datetime = Column(TIMESTAMP(timezone="UTC"))
-    shiftnumber = Column(BigInteger)
-    receiptsquantity = Column(BigInteger)
-    documentsquantity = Column(BigInteger)
+    shiftnumber = Column(Integer)
+    receiptsquantity = Column(SmallInteger)
+    documentsquantity = Column(SmallInteger)
     nottransmitteddocumentsquantity = Column(BigInteger)
     nottransmitteddocumentsdatetime = Column(
         TIMESTAMP(timezone="UTC")
@@ -108,7 +108,7 @@ class CloseshiftModel(db.Model):
     kktregid = Column(String)
     fiscaldrivenumber = Column(String)
     fiscaldocumentnumber = Column(BigInteger)
-    fiscalsign = Column(BigInteger)
+    fiscalsign = Column(Integer)
     __table_args__ = (
         UniqueConstraint(
             "fiscaldrivenumber",

@@ -3,7 +3,7 @@ from flask_script import Manager
 from flask_migrate import Migrate, MigrateCommand
 from flask_app.app import app, db
 
-from flask_app.models_old import CloseshiftModel, OpenshiftModel, ReceiptModel
+from flask_app.models import CloseshiftModel, OpenshiftModel, ReceiptModel
 migrate = Migrate(app, db)
 manager = Manager(app)
 manager.add_command('db', MigrateCommand)

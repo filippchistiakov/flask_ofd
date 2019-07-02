@@ -10,7 +10,7 @@ from flask import (
 from sqlalchemy.exc import IntegrityError
 
 from flask_app.config import config
-from flask_app.models_old import ReceiptModel, CloseshiftModel, OpenshiftModel
+from flask_app.models import ReceiptModel, CloseshiftModel, OpenshiftModel
 from flask_app.schemas import Platformaofd
 from  flask_app.app import db
 
